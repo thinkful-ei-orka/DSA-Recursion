@@ -13,37 +13,50 @@ let myBigMaze = [
 ];
 
 function escapeMaze(maze, row, col) {
-  // if (row < 0 || row > 7) {
-  //     return "row must be greater than 0 and less that 7"
-  // }
-  // if (col < 0) || col > 5) {
-  // }
+  let left = '';
+  let up = '';
+  let down = '';
+  let right = '';
 
-  let right = maze[row][col + 1];
-  let left = maze[row][col - 1];
-  let up = maze[row - 1][col];
-  let down = maze[row + 1][col];
+  if (col - 1 >= 0) {
+    left = maze[row][col - 1];
+  }
+  if (col + 1 < maze[row].length) {
+    right = maze[row][col + 1];
+  }
+  if (row + 1 < maze.length) {
+    down = maze[row + 1][col];
+  }
+  if (row - 1 >= 0) {
+    up = maze[row - 1][col];
+  }
 
-  if (right === 'e' || left === 'e' || up === 'e' || down === 'e') {
-    return true;
+  if (right === 'e') {
+    return 'R';
+  }
+  if (left === 'e') {
+    return 'L';
+  }
+  if (down === 'e') {
+    return 'D';
+  }
+  if (up === 'e') {
+    return 'U';
   }
 
   maze[row][col] = '*';
 
   if (right === ' ') {
-    console.log('R');
-    return escapeMaze(maze, row, col + 1);
-  } else if (left == ' ') {
-    console.log('L');
-    return escapeMaze(maze, row, col - 1);
-  } else if (up == ' ') {
-    console.log('U');
-    return escapeMaze(maze, row - 1, col);
+    return 'R' + escapeMaze(maze, row, col + 1);
   } else if (down == ' ') {
-    console.log('D');
-    return escapeMaze(maze, row - 1, col);
+    return 'D' + escapeMaze(maze, row + 1, col);
+  } else if (left == ' ') {
+    return 'L' + escapeMaze(maze, row, col - 1);
+  } else if (up == ' ') {
+    return 'U' + escapeMaze(maze, row - 1, col);
   }
+
   return false;
 }
 
-escapeMaze(mySmallMaze, 0, 0);
+console.log(escapeMaze(myBigMaze, 0, 0));
